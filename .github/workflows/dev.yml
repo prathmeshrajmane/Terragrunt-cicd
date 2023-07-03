@@ -9,6 +9,10 @@ env:
   WORKING_DIRECTORY: './environments/dev'
   AWS_REGION: "us-east-1"
 
+permissions:
+  id-token: write
+  contents: write
+
 jobs:
   plan:
     name: 'Terragrunt'
