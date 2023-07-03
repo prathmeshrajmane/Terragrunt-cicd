@@ -1,0 +1,72 @@
+name: 'Create_Development_Environment'
+on:
+  push:
+    branches:
+      - dev
+  
+
+env:
+  WORKING_DIRECTORY: './environments/dev'
+  AWS_REGION: "us-east-1"
+
+jobs:
+  plan:
+    name: 'Terragrunt'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@master
+
+      - name: 'Install AWS cli'
+        id: install-aws-cli
+        uses: unfor19/install-aws-cli-action@master
+        with:
+          version: 2
+          rootdir: ""
+          workdir: ""
+      - name: 'ConfigureAwsCredentials'
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-region: ${{ env.AWS_REGION }}
+          role-to-assume: ${{ secrets.IAM_ROLE }}
+          role-session-name: infra-launch-session
+
+      - uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.0.0
+          terraform_wrapper: false
+
+      - name: Setup Terragrunt
+        uses: autero1/action-terragrunt@v1.1.0
+        with:
+          terragrunt_version: 0.37.1
+
+      - name: Interact with Terragrunt
+        run: terragrunt --version
+
+      - name: 'Terragrunt Init'
+        run: terragrunt run-all init --terragrunt-non-interactive
+        working-directory: ${{ env.WORKING_DIRECTORY }}
+
+      - name: 'Terragrunt Plan'
+        run: terragrunt run-all plan --terragrunt-non-interactive
+        working-directory: ${{ env.WORKING_DIRECTORY }}
+  deployment:
+    needs: plan
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@master
+
+      - uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.0.0
+          terraform_wrapper: false
+
+      - name: Setup Terragrunt
+        uses: autero1/action-terragrunt@v1.1.0
+        with:
+          terragrunt_version: 0.37.1
+      - name: 'Terragrunt Apply'
+        run: terragrunt run-all apply --terragrunt-non-interactive
+        working-directory: ${{ env.WORKING_DIRECTORY }}
