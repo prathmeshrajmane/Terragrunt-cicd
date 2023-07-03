@@ -14,4 +14,3 @@ remote_state {
         dynamodb_table = "dev-lock-table"
     }
 }
-
