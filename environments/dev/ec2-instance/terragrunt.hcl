@@ -1,7 +1,7 @@
-include {
-  path = find_in_parent_folders()
-}
+#include {
+#  path = find_in_parent_folders()
+#}
 
-terraform {
-  source = "../../../modules/ec2-instance"
-}
+#terraform {
+#  source = "../../../modules/ec2-instance"
+#}
