@@ -14,5 +14,5 @@ variable "private-rt-name"        {}
 variable "azs" {
  type        = list(string)
  description = "Availability Zones"
- default     = ["ap-south-1a", "ap-south-1b"]
+ default     = ["us-east-1a", "us-east-1b"]
 }
