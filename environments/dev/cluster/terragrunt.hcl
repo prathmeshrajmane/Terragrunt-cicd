@@ -21,7 +21,8 @@ dependency "vpc" {
 dependency "iam-roles" {
   config_path = "../iam-roles"
   mock_outputs = {
-    eks_cluster_role_arn = "arn:aws:eks:us-east-1:666666666666:cluster/dev"
+  # eks_cluster_role_arn = "arn:aws:iam::***:role/Test-Eks-Cluster-Role"
+    eks_cluster_role_arn = "arn:aws:iam::123456789012:role/clusterrole"
   }
  mock_outputs_allowed_terraform_commands = ["init","plan"]
 }
