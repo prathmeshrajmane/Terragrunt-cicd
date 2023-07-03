@@ -14,6 +14,7 @@ dependency "vpc" {
     public_subnets_id   = ["public-subnet"]
     security_group_id   = "sg-id"
   }
+  mock_outputs_allowed_terraform_commands = ["init","plan"]
 }
 
 
@@ -22,6 +23,7 @@ dependency "iam-roles" {
   mock_outputs = {
     eks_cluster_role_arn = "arn:aws:eks:us-east-1:666666666666:cluster/dev"
   }
+ mock_outputs_allowed_terraform_commands = ["init","plan"]
 }
 
 inputs = {
