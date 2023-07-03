@@ -7,7 +7,7 @@ remote_state {
     }
 
     config = {
-        bucket = "terraform-terragrunt-states-bucket"
+        bucket = "prathm-testing-states-bucket"
         key = "${path_relative_to_include()}/terraform.tfvars"
         region = "us-east-1"
         encrypt = true
