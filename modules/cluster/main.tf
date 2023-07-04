@@ -40,6 +40,7 @@ resource "aws_eks_node_group" "backend" {
   update_config {
     max_unavailable = 1
   }
+}
 
 
 
