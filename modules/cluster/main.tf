@@ -26,7 +26,7 @@ resource "aws_eks_node_group" "backend" {
   instance_types = ["t2.small"]
   remote_access {
     ec2_ssh_key = "rtp-03"
-    source_security_group_ids = aws_security_group.worker_node_sg.id
+    source_security_group_ids = var.security_group_id
   } 
   
   labels =  tomap({env = "dev"})
@@ -44,24 +44,3 @@ resource "aws_eks_node_group" "backend" {
 
 
 
-resource "aws_security_group" "worker_node_sg" {
-  name        = "eks-test"
-  description = "Allow ssh inbound traffic"
-  vpc_id      =  var.vpc-id
-
-  ingress {
-    description      = "ssh access to public"
-    from_port        = 22
-    to_port          = 22
-    protocol         = "tcp"
-    cidr_blocks      = ["0.0.0.0/0"]
-  }
-
-  egress {
-    from_port        = 0
-    to_port          = 0
-    protocol         = "-1"
-    cidr_blocks      = ["0.0.0.0/0"]
-  }
-
-}
