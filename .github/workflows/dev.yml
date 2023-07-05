@@ -87,5 +87,5 @@ jobs:
         with:
           terragrunt_version: 0.37.1
       - name: 'Terragrunt Apply'
-        run: terragrunt run-all destroy --terragrunt-non-interactive
+        run: terragrunt run-all apply --terragrunt-non-interactive
         working-directory: ${{ env.WORKING_DIRECTORY }}

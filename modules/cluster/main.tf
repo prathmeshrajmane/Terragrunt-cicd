@@ -42,3 +42,22 @@ resource "aws_eks_node_group" "backend" {
   }
 }
 
+resource "kubernetes_config_map" "aws_auth_configmap" {
+  metadata {
+    name      = "aws-auth"
+    namespace = "kube-system"
+  }
+data = {
+    mapRoles = <<YAML
+- rolearn: ${arn:aws:iam::772292804745:role/ed-eks-worker}
+  username: system:node:{{EC2PrivateDNSName}}
+  groups:
+    - system:bootstrappers
+    - system:nodes
+- rolearn: ${arn:aws:iam::772292804745:role/prathmesh}
+  username: kubectl
+  groups:
+    - system:masters
+YAML
+  }
+}
